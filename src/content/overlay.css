@@ -1,0 +1,113 @@
+/* 截图遮罩层 */
+#formula-ocr-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2147483647;
+  cursor: crosshair;
+  display: none;
+}
+
+#formula-ocr-overlay.active {
+  display: block;
+}
+
+/* 选择框 */
+#formula-ocr-selection-box {
+  position: absolute;
+  border: 2px solid #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+  pointer-events: none;
+  display: none;
+}
+
+#formula-ocr-selection-box.active {
+  display: block;
+}
+
+/* 选择框尺寸标签 */
+#formula-ocr-dimensions {
+  position: absolute;
+  background-color: #3b82f6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: none;
+}
+
+#formula-ocr-dimensions.active {
+  display: block;
+}
+
+/* 工具栏 */
+#formula-ocr-toolbar {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px 16px;
+  display: none;
+  z-index: 2147483648;
+}
+
+#formula-ocr-toolbar.active {
+  display: flex;
+  gap: 8px;
+}
+
+/* 工具栏按钮 */
+#formula-ocr-toolbar button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#formula-ocr-toolbar button.primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+#formula-ocr-toolbar button.primary:hover {
+  background-color: #2563eb;
+}
+
+#formula-ocr-toolbar button.secondary {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+#formula-ocr-toolbar button.secondary:hover {
+  background-color: #d1d5db;
+}
+
+/* 提示信息 */
+#formula-ocr-hint {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 2147483648;
+  display: none;
+}
+
+#formula-ocr-hint.active {
+  display: block;
+}
