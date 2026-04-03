@@ -58,8 +58,6 @@ export class OverlayManager {
     if (!document.getElementById(styleId)) {
       const style = document.createElement('style');
       style.id = styleId;
-      // 这里应该注入 overlay.css 的内容
-      // 简化版，实际应该从文件读取
       style.textContent = `
         #formula-ocr-overlay {
           position: fixed;
@@ -67,76 +65,98 @@ export class OverlayManager {
           left: 0;
           width: 100vw;
           height: 100vh;
-          background-color: rgba(0, 0, 0, 0.5);
+          background-color: rgba(0, 0, 0, 0.3);
           z-index: 2147483647;
           cursor: crosshair;
           display: none;
+          isolation: isolate;
         }
         #formula-ocr-overlay.active { display: block; }
         #formula-ocr-selection-box {
-          position: absolute;
-          border: 2px solid #3b82f6;
-          background-color: rgba(59, 130, 246, 0.1);
+          position: fixed;
+          border: 3px solid #ef4444;
+          background-color: rgba(239, 68, 68, 0.1);
           pointer-events: none;
           display: none;
+          z-index: 2147483648;
+          box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5),
+                      0 0 20px rgba(239, 68, 68, 0.5);
+          isolation: isolate;
         }
         #formula-ocr-selection-box.active { display: block; }
         #formula-ocr-dimensions {
-          position: absolute;
-          background-color: #3b82f6;
+          position: fixed;
+          background-color: #ef4444;
           color: white;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 12px;
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 600;
           pointer-events: none;
           white-space: nowrap;
           display: none;
+          z-index: 2147483649;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          isolation: isolate;
         }
         #formula-ocr-dimensions.active { display: block; }
         #formula-ocr-toolbar {
           position: fixed;
-          bottom: 40px;
+          bottom: 60px;
           left: 50%;
           transform: translateX(-50%);
           background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          padding: 8px 16px;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+          padding: 12px 20px;
           display: none;
-          z-index: 2147483648;
+          z-index: 2147483650;
+          isolation: isolate;
+          border: 1px solid rgba(0, 0, 0, 0.1);
         }
-        #formula-ocr-toolbar.active { display: flex; gap: 8px; }
+        #formula-ocr-toolbar.active { display: flex; gap: 12px; }
         #formula-ocr-toolbar button {
-          padding: 8px 16px;
+          padding: 10px 20px;
           border: none;
-          border-radius: 4px;
-          font-size: 14px;
-          font-weight: 500;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
         #formula-ocr-toolbar button.primary {
-          background-color: #3b82f6;
+          background-color: #ef4444;
           color: white;
+          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
         }
-        #formula-ocr-toolbar button.primary:hover { background-color: #2563eb; }
+        #formula-ocr-toolbar button.primary:hover {
+          background-color: #dc2626;
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+          transform: translateY(-1px);
+        }
+        #formula-ocr-toolbar button.primary:active { transform: translateY(0); }
         #formula-ocr-toolbar button.secondary {
-          background-color: #e5e7eb;
+          background-color: #f3f4f6;
           color: #374151;
+          border: 1px solid #e5e7eb;
         }
-        #formula-ocr-toolbar button.secondary:hover { background-color: #d1d5db; }
+        #formula-ocr-toolbar button.secondary:hover { background-color: #e5e7eb; }
         #formula-ocr-hint {
           position: fixed;
-          top: 20px;
+          top: 30px;
           left: 50%;
           transform: translateX(-50%);
-          background-color: rgba(0, 0, 0, 0.8);
+          background-color: rgba(0, 0, 0, 0.9);
           color: white;
-          padding: 8px 16px;
-          border-radius: 4px;
-          font-size: 14px;
-          z-index: 2147483648;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: 500;
+          z-index: 2147483650;
           display: none;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          isolation: isolate;
         }
         #formula-ocr-hint.active { display: block; }
       `;
@@ -156,6 +176,7 @@ export class OverlayManager {
 
     // 鼠标移动
     document.addEventListener('mousemove', (e) => {
+      // 选择中更新选择框
       if (!this.isSelecting || !this.startPoint || !this.selectionBox) return;
 
       const width = e.clientX - this.startPoint.x;

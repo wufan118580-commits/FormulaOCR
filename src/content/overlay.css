@@ -5,10 +5,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 2147483647;
-  cursor: crosshair;
+  cursor: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"%3E%3Cpath fill="none" stroke="%23000" stroke-width="2" d="M16 0v32M0 16h32" /%3E%3Ccircle cx="16" cy="16" r="2" fill="%23000" /%3E%3C/svg%3E') 16 16, crosshair;
   display: none;
+  /* 确保在最上层 */
+  isolation: isolate;
 }
 
 #formula-ocr-overlay.active {
@@ -17,11 +19,17 @@
 
 /* 选择框 */
 #formula-ocr-selection-box {
-  position: absolute;
-  border: 2px solid #3b82f6;
-  background-color: rgba(59, 130, 246, 0.1);
+  position: fixed;
+  border: 3px solid #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
   pointer-events: none;
   display: none;
+  z-index: 2147483648;
+  /* 添加阴影使其更明显 */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5),
+              0 0 20px rgba(239, 68, 68, 0.5);
+  /* 确保在最上层 */
+  isolation: isolate;
 }
 
 #formula-ocr-selection-box.active {
@@ -30,15 +38,20 @@
 
 /* 选择框尺寸标签 */
 #formula-ocr-dimensions {
-  position: absolute;
-  background-color: #3b82f6;
+  position: fixed;
+  background-color: #ef4444;
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   pointer-events: none;
   white-space: nowrap;
   display: none;
+  z-index: 2147483649;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  /* 确保在最上层 */
+  isolation: isolate;
 }
 
 #formula-ocr-dimensions.active {
@@ -48,64 +61,80 @@
 /* 工具栏 */
 #formula-ocr-toolbar {
   position: fixed;
-  bottom: 40px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: 12px 20px;
   display: none;
-  z-index: 2147483648;
+  z-index: 2147483650;
+  /* 确保在最上层 */
+  isolation: isolate;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #formula-ocr-toolbar.active {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* 工具栏按钮 */
 #formula-ocr-toolbar button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
 }
 
 #formula-ocr-toolbar button.primary {
-  background-color: #3b82f6;
+  background-color: #ef4444;
   color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 #formula-ocr-toolbar button.primary:hover {
-  background-color: #2563eb;
+  background-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
+#formula-ocr-toolbar button.primary:active {
+  transform: translateY(0);
 }
 
 #formula-ocr-toolbar button.secondary {
-  background-color: #e5e7eb;
+  background-color: #f3f4f6;
   color: #374151;
+  border: 1px solid #e5e7eb;
 }
 
 #formula-ocr-toolbar button.secondary:hover {
-  background-color: #d1d5db;
+  background-color: #e5e7eb;
 }
 
 /* 提示信息 */
 #formula-ocr-hint {
   position: fixed;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  z-index: 2147483648;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 2147483650;
   display: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* 确保在最上层 */
+  isolation: isolate;
 }
 
 #formula-ocr-hint.active {
